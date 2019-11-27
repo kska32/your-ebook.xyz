@@ -14,6 +14,10 @@ const MongoClient = mongodb.MongoClient;
 
 const {logRequest} = require("./utils/logVisited");
 
+if(process.env.NODE_ENV==='production'){
+    app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
+}
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({limit:"100mb"}));
 app.use(express.static(path.join(__dirname, 'public')));
