@@ -46,6 +46,10 @@ MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true
             res.sendFile(path.resolve(__dirname, './public/index.html'));
         });
 
+        app.get(/^\/robots.txt$/gi,(req,res,next)=>{
+            res.sendFile(path.resolve(__dirname, './public/Robots.txt'));
+        })
+
         let httpServer = http.createServer(app);
         httpServer.listen(svrPort,svrIp, ()=>{
             console.log(`> Web Server is ok. at the ${svrIp}:${svrPort}`);
