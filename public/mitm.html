@@ -124,14 +124,13 @@ function onMessage (event) {
   let org = origin.replace(/(^\w+:|^)\/\//, '')
 
   // set the absolute pathname to the download url.
-  //data.url = new URL(`${scope + org}/${data.pathname}`).toString()
-  data.url = new URL(`${scope}${data.pathname}`).toString()
+  data.url = new URL(`${scope + org}/${data.pathname}`).toString()
 
-  /*
+  
   if (!data.url.startsWith(`${scope + org}/`)) {
     throw new TypeError('[StreamSaver] bad `data.pathname`')
   }
-  */
+  
 
   // This sends the message data as well as transferring
   // messageChannel.port2 to the service worker. The service worker can
