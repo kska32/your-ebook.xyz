@@ -1,6 +1,0 @@
-# robots.txt for https://your-ebook.xyz/
-
-User-agent: *
-Allow: /
-
-Sitemap: https://your-ebook.xyz/sitemap1.xml

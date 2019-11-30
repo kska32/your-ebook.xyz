@@ -48,7 +48,7 @@ MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true
 
         app.get(/^\/robots.txt$/gi,(req,res,next)=>{
             res.sendFile(path.resolve(__dirname, './public/Robots.txt'));
-        })
+        });
 
         let httpServer = http.createServer(app);
         httpServer.listen(svrPort,svrIp, ()=>{
