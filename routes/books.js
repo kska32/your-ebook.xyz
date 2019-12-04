@@ -1,6 +1,8 @@
-let express = require('express');
-let router = express.Router();
-let {Throttle} = require('stream-throttle');
+const express = require('express');
+const router = express.Router();
+const {Throttle} = require('stream-throttle');
+
+const {createCaptchaToken,verifyCaptchaToken} = require("../utils/myCrypto");
 
 const {searchbooks, getbookInfo} = require('../utils/searchbooks');
 
@@ -49,21 +51,40 @@ router.post('/search', async function(req, res){
 });
 
 router.post('/getbook', async function(req,res,next){
-        let {bookid} = req.body;
+        let {bookid, token} = req.body;
 
-        let RemainingRatio = await detectRecentBehaviorLegality(req,{recent:1000*60**2*12, usableSize:1024**2*512});
+        if(token === undefined){
+            token = createCaptchaToken(bookid);
+            res.send(token);
+        } else if (token.result === '111'){
+            let FinalVCToken = verifyCaptchaToken(token);
+            let FinalResult = FinalVCToken.result;
 
-		let bookInfo = await getbookInfo(bookid, req.db, { 'title':1, 'gid':1, 'size':1 });
-        req.booksize = bookInfo.size;
+            switch(FinalResult){
+                case '111':
+                        let RemainingRatio = await detectRecentBehaviorLegality(req,{recent:1000*60**2*12, usableSize:1024**2*512});
+                        let bookInfo = await getbookInfo(bookid, req.db, { 'title':1, 'gid':1, 'size':1 });
+                        req.booksize = bookInfo.size;
+                
+                        await logWhichBookDownloaded(req);
+                        await logWhoDownloadedBook(req);
+                        await logWhoseFingerDownloadedBook(req);
+                
+                        res.writeHead( 200, {'Content-Length' : bookInfo.size} );
+                        let bookContent = await getbookFromGdrive(bookInfo);
+                        bookContent.data.pipe(new Throttle({rate: 1024*(768*RemainingRatio+256)})).pipe(res);   
+                        break;
 
-        await logWhichBookDownloaded(req);
-        await logWhoDownloadedBook(req);
-        await logWhoseFingerDownloadedBook(req);
-
-        res.writeHead( 200, {'Content-Length' : bookInfo.size} )
-        let bookContent = await getbookFromGdrive(bookInfo);
-        
-        bookContent.data.pipe(new Throttle({rate: 1024*(768*RemainingRatio+256)})).pipe(res);   
+                default:
+                        token.result = FinalResult;
+                        res.send(token);
+                        break;
+            } 
+        } else {
+            let {result} = verifyCaptchaToken(token);
+            token.result = result;
+            res.send(token);
+        }
 });
 
 router.post('/getallbooktitle', async function(req,res,next){
