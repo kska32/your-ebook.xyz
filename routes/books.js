@@ -47,7 +47,7 @@ books.post('/search', async function(req, res){
             }else{
                 return res.end( JSON.stringify(result) );
             }
-        }, 200);
+        }, 100);
 });
 
 books.post('/getbook', async function(req,res,next){
