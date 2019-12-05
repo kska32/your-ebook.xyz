@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "./static/media/icons.faff9214.woff"
   },
   {
-    "revision": "bc3310f1337b78e2e5fe",
+    "revision": "34b883076abbd6770cf7",
     "url": "./static/css/main.3cf9ae5a.chunk.css"
   },
   {
@@ -24,12 +24,12 @@ self.__precacheManifest = [
     "url": "./static/media/Niconne-Regular.1c8d9ad0.ttf"
   },
   {
-    "revision": "cd6c777f1945164224dee082abaea03a",
-    "url": "./static/media/outline-icons.cd6c777f.woff2"
-  },
-  {
     "revision": "ef60a4f6c25ef7f39f2d25a748dbecfe",
     "url": "./static/media/outline-icons.ef60a4f6.woff"
+  },
+  {
+    "revision": "cd6c777f1945164224dee082abaea03a",
+    "url": "./static/media/outline-icons.cd6c777f.woff2"
   },
   {
     "revision": "701ae6abd4719e9c2ada3535a497b341",
@@ -44,8 +44,8 @@ self.__precacheManifest = [
     "url": "./static/media/icons.0ab54153.woff2"
   },
   {
-    "revision": "bc3310f1337b78e2e5fe",
-    "url": "./static/js/main.f1637d2e.chunk.js"
+    "revision": "34b883076abbd6770cf7",
+    "url": "./static/js/main.4f6f783d.chunk.js"
   },
   {
     "revision": "e8c322de9658cbeb8a774b6624167c2c",
@@ -88,7 +88,7 @@ self.__precacheManifest = [
     "url": "./static/css/2.331386c5.chunk.css"
   },
   {
-    "revision": "aeedf1562ac652428da6955b36d57fb8",
+    "revision": "dc48fea8e6e5e5fd9e4aebb5ad72cce2",
     "url": "./index.html"
   }
 ];
