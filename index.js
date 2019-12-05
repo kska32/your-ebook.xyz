@@ -1,5 +1,4 @@
 const http = require("http");
-const fs = require("fs");
 
 const express = require('express');
 const bodyParser = require("body-parser");
@@ -8,6 +7,7 @@ const mongodb = require("mongodb");
 
 const app = express();
 const books = require("./routes/books");
+const index = require("./routes/index")
 
 const {mongodbUrl,svrIp,svrPort} = require("./conf");
 const MongoClient = mongodb.MongoClient;
@@ -32,7 +32,12 @@ app.use((req,res,next)=>{
     next();
 });
 
+app.use("/", index);
 app.use("/books", books);
+
+app.use((req,res)=>{
+    res.status(404).sendFile(path.resolve(__dirname,'./public/index.html'));
+});
 
 MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true })
 .then((r)=>{
@@ -42,19 +47,10 @@ MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true
         app.set('db', r.db("mydb"));
         app.set("x-powered-by",false);
 
-        app.get("/share",(req,res,next)=>{
-            res.sendFile(path.resolve(__dirname, './public/index.html'));
-        });
-
-        app.get(/^\/robots.txt$/gi,(req,res,next)=>{
-            res.sendFile(path.resolve(__dirname, './public/Robots.txt'));
-        });
-
         let httpServer = http.createServer(app);
         httpServer.listen(svrPort,svrIp, ()=>{
-            console.log(`> Web Server is ok. at the ${svrIp}:${svrPort}`);
+            console.log(`>Your-ebook.xyz is ok. at the ${svrIp}:${svrPort}`);
         });
-
 }).catch((err)=>{
         console.error(err);
 });

@@ -1,11 +1,11 @@
 {
-  "main.css": "./static/css/main.2ed455a3.chunk.css",
-  "main.js": "./static/js/main.5ab91114.chunk.js",
+  "main.css": "./static/css/main.ba7c05d1.chunk.css",
+  "main.js": "./static/js/main.ba51c2bf.chunk.js",
   "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
   "static/css/2.331386c5.chunk.css": "./static/css/2.331386c5.chunk.css",
-  "static/js/2.2cf3eef6.chunk.js": "./static/js/2.2cf3eef6.chunk.js",
+  "static/js/2.f71e51d8.chunk.js": "./static/js/2.f71e51d8.chunk.js",
   "index.html": "./index.html",
-  "precache-manifest.7e64d57ada9f24a57ef4dfc7fd630853.js": "./precache-manifest.7e64d57ada9f24a57ef4dfc7fd630853.js",
+  "precache-manifest.6e70d513d442779d3a1c046fe835ed3b.js": "./precache-manifest.6e70d513d442779d3a1c046fe835ed3b.js",
   "service-worker.js": "./service-worker.js",
   "static/media/Niconne-Regular.ttf": "./static/media/Niconne-Regular.1c8d9ad0.ttf",
   "static/media/semantic.min.css": "./static/media/outline-icons.ef60a4f6.woff"

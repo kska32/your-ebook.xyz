@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const books = express.Router();
 const {Throttle} = require('stream-throttle');
 
 const {createCaptchaToken,verifyCaptchaToken} = require("../utils/myCrypto");
@@ -22,7 +22,7 @@ const { getbookFromGdrive } = require("../utils/getbookFromGdrive");
 
 const {createBookList,updateBookList,updateRobotsTxt} = require("../utils/eBookManager");
 
-router.post('/search', async function(req, res){
+books.post('/search', async function(req, res){
         let {keyword,skipNum,limitNum} = req.body;
 
         if(keyword === undefined){
@@ -50,7 +50,7 @@ router.post('/search', async function(req, res){
         }, 200);
 });
 
-router.post('/getbook', async function(req,res,next){
+books.post('/getbook', async function(req,res,next){
         let {bookid, token} = req.body;
 
         if(token === undefined){
@@ -87,7 +87,7 @@ router.post('/getbook', async function(req,res,next){
         }
 });
 
-router.post('/getallbooktitle', async function(req,res,next){
+books.post('/getallbooktitle', async function(req,res,next){
     let clt = req.db.collection("booksdb");
     var query = {};
     var project = {'title':1};//'path':1, 'points':1
@@ -99,7 +99,7 @@ router.post('/getallbooktitle', async function(req,res,next){
     return res.end(JSON.stringify(result));
 });
 
-router.post('/getDataForAdmin', async function(req,res,next){
+books.post('/getDataForAdmin', async function(req,res,next){
     let {collName,skipNum,limitNum,sortType,key,query,project} = req.body;
     let clt = req.db.collection(collName||'');
     if(key === '1900329'){
@@ -116,7 +116,7 @@ router.post('/getDataForAdmin', async function(req,res,next){
 });
 
 
-router.post('/eBookManager', async function(req,res,next){
+books.post('/eBookManager', async function(req,res,next){
     const {query, key} = req.body;
     let r = null;
     
@@ -140,8 +140,5 @@ router.post('/eBookManager', async function(req,res,next){
     }
 })
 
-
-
-
-module.exports = router;
+module.exports = books;
 
