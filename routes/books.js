@@ -41,13 +41,11 @@ books.post('/search', async function(req, res){
 
         var result = await searchbooks(keyword, req.db, skipNum, limitNum);
 
-        setTimeout(()=>{
-            if( result.length === 0 ){
-                return res.end('Not Found');
-            }else{
-                return res.end( JSON.stringify(result) );
-            }
-        }, 100);
+        if( result.length === 0 ){
+            return res.end('Not Found');
+        }else{
+            return res.end( JSON.stringify(result) );
+        }
 });
 
 books.post('/getbook', async function(req,res,next){
