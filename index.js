@@ -36,10 +36,7 @@ app.use("/", index);
 app.use("/books", books);
 
 app.use((req,res)=>{
-    console.log(req.headers)
-    //console.log(req.headers)
    res.status(404).sendFile(path.resolve(__dirname,'./public/index.html'));
-
 });
 
 MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true })
