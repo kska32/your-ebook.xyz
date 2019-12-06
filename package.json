@@ -8,7 +8,8 @@
     "dev": "pm2-dev ecosystem.config.js -i 1",
     "docker": "pm2-runtime start ecosystem.config.js -i 0 --env production",
     "down": "pm2 delete ebook-server || echo There is no process.",
-    "lint": "./node_modules/.bin/eslint index.js"
+    "lint": "./node_modules/.bin/eslint index.js",
+    "finally": "sh finally.sh"
   },
   "keywords": [],
   "author": "kska32@gmail.com",
