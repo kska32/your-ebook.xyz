@@ -1,12 +1,12 @@
 {
-  "main.css": "./static/css/main.3cf9ae5a.chunk.css",
-  "main.js": "./static/js/main.ae7a5337.chunk.js",
-  "runtime~main.js": "./static/js/runtime~main.d653cc00.js",
-  "static/css/2.331386c5.chunk.css": "./static/css/2.331386c5.chunk.css",
-  "static/js/2.ed583322.chunk.js": "./static/js/2.ed583322.chunk.js",
-  "index.html": "./index.html",
-  "precache-manifest.8c186d4c004312d90be2e9afbf16019a.js": "./precache-manifest.8c186d4c004312d90be2e9afbf16019a.js",
-  "service-worker.js": "./service-worker.js",
-  "static/media/Niconne-Regular.ttf": "./static/media/Niconne-Regular.1c8d9ad0.ttf",
-  "static/media/semantic.min.css": "./static/media/outline-icons.ef60a4f6.woff"
+  "main.css": "/static/css/main.3cf9ae5a.chunk.css",
+  "main.js": "/static/js/main.e268a878.chunk.js",
+  "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
+  "static/css/2.fa51923b.chunk.css": "/static/css/2.fa51923b.chunk.css",
+  "static/js/2.ed583322.chunk.js": "/static/js/2.ed583322.chunk.js",
+  "index.html": "/index.html",
+  "precache-manifest.852fe684c02499daeaa757be23fda1b0.js": "/precache-manifest.852fe684c02499daeaa757be23fda1b0.js",
+  "service-worker.js": "/service-worker.js",
+  "static/media/Niconne-Regular.ttf": "/static/media/Niconne-Regular.1c8d9ad0.ttf",
+  "static/media/semantic.min.css": "/static/media/outline-icons.ef60a4f6.woff"
 }
