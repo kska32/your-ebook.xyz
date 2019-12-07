@@ -12,13 +12,25 @@ let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
 		var fsl = filterSpecialChar;
 		keyword = fsl(keyword);
 
-		var query = {'title':{'$regex':'.*'+ keyword +'.*','$options':"gi"}};
-		var project = {'title':1, 'size':1};//'path':1, 'points':1
-		let result = await clt.find(query)
-							.project(project)
-							.skip(skipNum)
-							.limit(limitNum)
-							.toArray();
+		let query,project,result;
+
+		if(keyword==='<<___last_updated___>>'){
+			project = { 'title':1, 'size':1 };
+			result = await clt.find()
+					.project(project)
+					.sort({_id: -1})
+					.skip(skipNum)
+					.limit(limitNum)
+					.toArray();
+		}else{
+			query = {'title':{'$regex':'.*'+ keyword +'.*','$options':"gi"}};
+			project = {'title':1, 'size':1};//'path':1, 'points':1
+			result = await clt.find(query)
+					.project(project)
+					.skip(skipNum)
+					.limit(limitNum)
+					.toArray();
+		}
 		return result;
 }
 

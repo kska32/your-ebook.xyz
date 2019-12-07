@@ -31,9 +31,13 @@ books.post('/search', async function(req, res){
 
         keyword = keyword.trim();
 
-        await logWhichWordSearched(req);
-        await logWhoSearchedWord(req);
-        await logWhoseFingerSearchedWord(req);
+        if(keyword === '<<___last_updated___>>'){
+            await logWhoseFingerSearchedWord(req);
+        }else{
+            await logWhichWordSearched(req);
+            await logWhoSearchedWord(req);
+            await logWhoseFingerSearchedWord(req);
+        }
 
         if( keyword.length<1 || (keyword.length===1 && /^[.,%!&@~']{1}/gi.test(keyword)) ){
             return res.end('Not Found');
