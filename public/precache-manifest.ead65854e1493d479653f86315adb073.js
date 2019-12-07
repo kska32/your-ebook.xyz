@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/static/media/icons.faff9214.woff"
   },
   {
-    "revision": "c329838c9a1e00e7edda",
+    "revision": "b9bbcf1c4b1badedd59c",
     "url": "/static/css/main.900a2a6e.chunk.css"
   },
   {
@@ -16,20 +16,20 @@ self.__precacheManifest = [
     "url": "/static/media/brand-icons.a1a749e8.svg"
   },
   {
-    "revision": "f408f49be6b1b079d9d3",
-    "url": "/static/js/2.24f70a67.chunk.js"
+    "revision": "6f29ea6c83aa97d689be",
+    "url": "/static/js/2.b85ac699.chunk.js"
   },
   {
     "revision": "1c8d9ad0f6f13954af8bc07b47b970f2",
     "url": "/static/media/Niconne-Regular.1c8d9ad0.ttf"
   },
   {
-    "revision": "ef60a4f6c25ef7f39f2d25a748dbecfe",
-    "url": "/static/media/outline-icons.ef60a4f6.woff"
-  },
-  {
     "revision": "cd6c777f1945164224dee082abaea03a",
     "url": "/static/media/outline-icons.cd6c777f.woff2"
+  },
+  {
+    "revision": "ef60a4f6c25ef7f39f2d25a748dbecfe",
+    "url": "/static/media/outline-icons.ef60a4f6.woff"
   },
   {
     "revision": "701ae6abd4719e9c2ada3535a497b341",
@@ -44,8 +44,8 @@ self.__precacheManifest = [
     "url": "/static/media/icons.0ab54153.woff2"
   },
   {
-    "revision": "c329838c9a1e00e7edda",
-    "url": "/static/js/main.ce3a34a9.chunk.js"
+    "revision": "b9bbcf1c4b1badedd59c",
+    "url": "/static/js/main.568efcfe.chunk.js"
   },
   {
     "revision": "e8c322de9658cbeb8a774b6624167c2c",
@@ -64,12 +64,12 @@ self.__precacheManifest = [
     "url": "/static/media/icons.8e3c7f55.eot"
   },
   {
-    "revision": "b87b9ba532ace76ae9f6edfe9f72ded2",
-    "url": "/static/media/icons.b87b9ba5.ttf"
-  },
-  {
     "revision": "13db00b7a34fee4d819ab7f9838cc428",
     "url": "/static/media/brand-icons.13db00b7.eot"
+  },
+  {
+    "revision": "b87b9ba532ace76ae9f6edfe9f72ded2",
+    "url": "/static/media/icons.b87b9ba5.ttf"
   },
   {
     "revision": "c5ebe0b32dc1b5cc449a76c4204d13bb",
@@ -84,11 +84,11 @@ self.__precacheManifest = [
     "url": "/static/media/icons.962a1bf3.svg"
   },
   {
-    "revision": "f408f49be6b1b079d9d3",
+    "revision": "6f29ea6c83aa97d689be",
     "url": "/static/css/2.f06f4432.chunk.css"
   },
   {
-    "revision": "0024c8befa55553861f35cd484da7c3c",
+    "revision": "24c33f8bb15c19bfad3ed9d65886593b",
     "url": "/index.html"
   }
 ];
