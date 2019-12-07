@@ -2,7 +2,7 @@ const express = require('express');
 const index = express.Router();
 const path = require("path");
 
-index.get(["/share","/search"],(req,res,next)=>{
+index.get(["/share","/search","/latest"],(req,res,next)=>{
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
