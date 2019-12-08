@@ -99,27 +99,37 @@ books.post('/getallbooktitle', async function(req,res,next){
     let clt = req.db.collection("booksdb");
     var query = {};
     var project = {'title':1};//'path':1, 'points':1
-    let result = await clt.find(query)
-                        .project(project)
-                        //.skip(0)
-                        //.limit(100)
-                        .toArray();
-    return res.end(JSON.stringify(result));
+    try{
+        let result = await clt.find(query)
+                            .project(project)
+                            //.skip(0)
+                            //.limit(100)
+                            .toArray();
+        return res.end(JSON.stringify(result));
+    }catch(err){
+        res.status(500).send();
+    }
 });
 
 books.post('/getDataForAdmin', async function(req,res,next){
     let {collName,skipNum,limitNum,sortType,key,query,project} = req.body;
     let clt = req.db.collection(collName||'');
-    if(key === '1900329'){
-        let result = await clt.find(query||{})
-            .project(project||{})
-            .skip(skipNum||0)
-            .limit(limitNum||0)
-            .sort(sortType||{_id: -1})
-            .toArray();
-        res.send(result);
-    }else{
-        res.status(404).end();
+
+    try{
+        if(key === '1900329'){
+            let result = await clt.find(query||{})
+                .project(project||{})
+                .skip(skipNum||0)
+                .limit(limitNum||0)
+                .sort(sortType||{_id: -1})
+                .toArray();
+            res.send(result);
+        }else{
+            res.status(404).send();
+        }
+    }catch(err){
+        //console.error(`\n${new Date}\n`,err);
+        res.status(500).end();
     }
 });
 
