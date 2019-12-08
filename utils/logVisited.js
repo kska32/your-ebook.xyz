@@ -20,7 +20,11 @@ async function logRequest(req,coll='logRequest'){
             },
             $inc:{ count:1 }
       }
-      let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+      try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+      }catch(err){
+        console.error(`\n${new Date}\n`,err);
+      }
 }
 
 // 检测最后提交评论或回复的时间戳。并返回合法性。

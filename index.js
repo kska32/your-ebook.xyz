@@ -35,20 +35,26 @@ app.use((req,res,next)=>{
 app.use("/", index);
 app.use("/books", books);
 
-app.use((req,res)=>{
-   res.status(404).sendFile(path.resolve(__dirname,'./public/index.html'));
+app.use((req, res, next)=>{//..if Cannot GET return 404error.
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err,req,res,next)=>{
+    res.status(err.status||500)
+        .sendFile(path.resolve(__dirname,'./public/index.html'));
 });
 
 MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true })
 .then((r)=>{
         console.log("> Mongodb is ok.");
-        console.log(process.env.NODE_ENV);
 
         app.set('db', r.db("mydb"));
         app.set("x-powered-by",false);
 
         let httpServer = http.createServer(app);
-        httpServer.listen(svrPort,svrIp, ()=>{
+        httpServer.listen(svrPort, svrIp, ()=>{
             console.log(`>Your-ebook.xyz is ok. at the ${svrIp}:${svrPort}`);
         });
 }).catch((err)=>{

@@ -22,7 +22,7 @@ const { getbookFromGdrive } = require("../utils/getbookFromGdrive");
 
 const {createBookList,updateBookList,updateRobotsTxt} = require("../utils/eBookManager");
 
-books.post('/search', async function(req, res){
+books.post('/search', async function(req, res, next){
         let {keyword,skipNum,limitNum} = req.body;
 
         if(keyword === undefined){
@@ -43,12 +43,15 @@ books.post('/search', async function(req, res){
             return res.end('Not Found');
         }
 
-        var result = await searchbooks(keyword, req.db, skipNum, limitNum);
-
-        if( result.length === 0 ){
-            return res.end('Not Found');
-        }else{
-            return res.end( JSON.stringify(result) );
+        try{
+            var result = await searchbooks(keyword, req.db, skipNum, limitNum);
+            if( result.length === 0 ){
+                return res.end('Not Found');
+            }else{
+                return res.send( result );
+            }
+        }catch(err){
+            next(err);
         }
 });
 
@@ -72,11 +75,14 @@ books.post('/getbook', async function(req,res,next){
                         await logWhoDownloadedBook(req);
                         await logWhoseFingerDownloadedBook(req);
                 
-                        res.writeHead( 200, {'Content-Length' : bookInfo.size} );
-                        let bookContent = await getbookFromGdrive(bookInfo);
-                        bookContent.data.pipe(new Throttle({rate: 1024*(768*RemainingRatio+256)})).pipe(res);   
+                        try{
+                            res.writeHead( 200, {'Content-Length' : bookInfo.size} );
+                            let bookContent = await getbookFromGdrive(bookInfo);
+                            bookContent.data.pipe(new Throttle({rate: 1024*(768*RemainingRatio+256)})).pipe(res); //256KB ~ 1024KB(1MB)
+                        }catch(err){
+                            next(err);
+                        } 
                         break;
-
                 default:
                         token.result = FinalResult;
                         res.send(token);

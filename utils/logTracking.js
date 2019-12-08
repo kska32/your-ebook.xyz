@@ -22,8 +22,12 @@ async function logWhoDownloadedBook(req,coll='whoDownloadedBook'){
             },
             $inc:{ count:1 }
     }
-    let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
-        assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+        //assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+    }
 }
 
 async function logWhoseFingerDownloadedBook(req,coll='whoseFingerDownloadedBook'){
@@ -48,8 +52,13 @@ async function logWhoseFingerDownloadedBook(req,coll='whoseFingerDownloadedBook'
             },
             $inc:{ count:1 }
     }
-    let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
-        assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+
+    try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+        //assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+    }
 }
 
 async function logWhichBookDownloaded(req,coll='whichBookDownloaded'){
@@ -72,8 +81,13 @@ async function logWhichBookDownloaded(req,coll='whichBookDownloaded'){
             },
             $inc:{ count:1 }
     }
-    let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
-        assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+
+    try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+        //assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+    }
 }
 
 //===============================================================
@@ -95,8 +109,13 @@ async function logWhichWordSearched(req,coll='whichWordSearched'){
             },
             $inc:{ count:1 }
     }
-    let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
-        assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+
+    try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+        //assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+    }
 }
 
 async function logWhoSearchedWord(req,coll='whoSearchedWord'){
@@ -116,8 +135,13 @@ async function logWhoSearchedWord(req,coll='whoSearchedWord'){
             },
             $inc:{ count:1 }
     }
-    let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
-        assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+
+    try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+        //assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+    }
 }
 
 async function logWhoseFingerSearchedWord(req,coll='whoseFingerSearchedWord'){
@@ -137,8 +161,14 @@ async function logWhoseFingerSearchedWord(req,coll='whoseFingerSearchedWord'){
             },
             $inc:{ count:1 }
     }
-    let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
-        assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    
+    try{
+        let ru = await cc.updateOne(finddata,updatedata,{upsert:true});
+        //assert.equal(ru.result.ok,1,"update error at loginFailed/mydb.");
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+    }
+        
 }
 
 //========================================================
@@ -150,7 +180,13 @@ async function detectRecentBehaviorLegality(req, recentUsagelimit={recent:1000*6
     let fingerprint = req.headers.authorization.slice(7);
     let {recent, usableSize} = recentUsagelimit;
 
-    let result = await cc.findOne({fingerprint: fingerprint});
+    let result;
+    try{
+        result = await cc.findOne({fingerprint: fingerprint});
+    }catch(err){
+        console.error(`\n${new Date}\n`,err);
+        return 0;
+    }
     let getTime = (x) => x ? new Date(x).getTime() : Date.now();
 
     let timestamps = result ? result.timestamp : [];
