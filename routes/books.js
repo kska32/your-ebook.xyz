@@ -107,7 +107,7 @@ books.post('/getallbooktitle', async function(req,res,next){
                             .toArray();
         return res.end(JSON.stringify(result));
     }catch(err){
-        res.status(500).send();
+        res.sendStatus(500);
     }
 });
 
@@ -129,7 +129,7 @@ books.post('/getDataForAdmin', async function(req,res,next){
         }
     }catch(err){
         //console.error(`\n${new Date}\n`,err);
-        res.status(500).end();
+        res.sendStatus(500);
     }
 });
 
@@ -138,23 +138,27 @@ books.post('/eBookManager', async function(req,res,next){
     const {query, key} = req.body;
     let r = null;
     
-    if(key === '1900329'){
-        req.setTimeout(0);
-        switch(query.type){
-            case 'CREATE_BOOK_LIST':
-                r = await createBookList();
-                res.sendStatus(r===1 ? 200 : 500);
-                break;
-            case 'UPDATE_BOOK_LIST':
-                r = await updateBookList(1000*60*60);
-                console.log(r)
-                res.sendStatus(r===1 ? 200 : (r===0 ? 204 : 500));
-                break;
-            case 'UPDATE_ROBOTS_TXT':
-                r = await updateRobotsTxt();
-                res.sendStatus(r===1 ? 200 : 500);
-                break;
+    try{
+        if(key === '1900329'){
+            req.setTimeout(0);
+            switch(query.type){
+                case 'CREATE_BOOK_LIST':
+                    r = await createBookList();
+                    res.sendStatus(r===1 ? 200 : 500);
+                    break;
+                case 'UPDATE_BOOK_LIST':
+                    r = await updateBookList(1000*60*60);
+                    console.log(r)
+                    res.sendStatus(r===1 ? 200 : (r===0 ? 204 : 500));
+                    break;
+                case 'UPDATE_ROBOTS_TXT':
+                    r = await updateRobotsTxt();
+                    res.sendStatus(r===1 ? 200 : 500);
+                    break;
+            }
         }
+    }catch(err){
+        res.sendStatus(500);
     }
 })
 
