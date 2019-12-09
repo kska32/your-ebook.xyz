@@ -148,7 +148,6 @@ books.post('/eBookManager', async function(req,res,next){
                     break;
                 case 'UPDATE_BOOK_LIST':
                     r = await updateBookList(1000*60*60);
-                    console.log(r)
                     res.sendStatus(r===1 ? 200 : (r===0 ? 204 : 500));
                     break;
                 case 'UPDATE_ROBOTS_TXT':

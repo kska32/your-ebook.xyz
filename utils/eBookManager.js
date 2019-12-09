@@ -251,7 +251,7 @@ function autoUpdateBookList($am=1, $intervalHours=24){
 					updateRobotsText()
 				}
 			})
-			clearInterval(siid);
+			//clearInterval(siid);
 		});
 }
 
