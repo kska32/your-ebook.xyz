@@ -18,7 +18,7 @@ let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
 			project = { 'title':1, 'size':1 };
 			result = await clt.find()
 					.project(project)
-					.sort({_id: -1})
+					.sort({_id: 1})
 					.skip(skipNum)
 					.limit(limitNum)
 					.toArray();

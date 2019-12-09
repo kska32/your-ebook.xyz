@@ -73,7 +73,7 @@ function filterAllFiles(allFiles){
 	});
 }
 
-function updateAll(){
+function createBookList(){
 	const jwtClient = getJwtClient();
 
 	return getTokens(jwtClient).then((token, tokens)=>{
@@ -101,7 +101,8 @@ function updateAll(){
 	});
 }
 
-function partialUpdate(msTimeAgo=1000*60*60){
+function updateBookList(msTimeAgo=1000*60*60){
+	//warning: The number of books per update must be less than 100
 	const jwtClient = getJwtClient();
 
 	return getTokens(jwtClient).then((token, tokens)=>{
@@ -112,7 +113,7 @@ function partialUpdate(msTimeAgo=1000*60*60){
 			  mimeType contains 'zip' or 
 			  mimeType contains 'mobi' or 
 			  mimeType contains 'epub') and 
-			  (modifiedTime >= '${moment(Date.now()-msTimeAgo).format()}')`,
+			  (modifiedTime > '${moment(Date.now()-msTimeAgo).format()}')`,
 		  fields: "nextPageToken, files(id, name, size, kind, mimeType, createdTime, modifiedTime)"
 		}).then((allFiles)=>{
 			allFiles = filterAllFiles(allFiles);
@@ -142,17 +143,15 @@ function generateSitemap(exportPath='sitemap.xml', siteBaseAddr='https://your-eb
 				glob(expPath.replace(".xml", "*.xml"), (er, files)=>{
 					if(er) throw er;
 					async.each(files, (file,callback)=>{
-						console.log("unlink?????????")
 						fs.unlink(file,(err)=>{
 							if (err) throw err;
 							callback();
 						})
 					}, (err)=>{
 						if( err===null ) {
-							console.log("no problem.")
 							resolve(true);
 						} else {
-							console.log("Clearing-sitemaps gets some errors.");
+							console.error("Clearing-sitemaps gets some errors.");
 							resolve(false);
 						}
 					});
@@ -208,7 +207,7 @@ function updateRobotsTxt(sitemapCount=1, exportPath="../public/Robots.txt",siteB
 	});
 }
 
-function updateRobots(path='../public/sitemap.xml', basePath='https://your-ebook.xyz', indexMax=50000){
+function updateRobotsText(path='../public/sitemap.xml', basePath='https://your-ebook.xyz', indexMax=50000){
 	return generateSitemap(path,basePath,indexMax).then((res)=>{
 		if(res.state===true){
 			return updateRobotsTxt(res.length, "../public/Robots.txt").then((res)=>{
@@ -220,20 +219,48 @@ function updateRobots(path='../public/sitemap.xml', basePath='https://your-ebook
 	});
 }
 
-//partialUpdate(1000*60*60*1);
-//updateAll();
 
-/*
-updateRobots('../public/sitemap.xml','https://your-ebook.xyz').then((res)=>{
-	if(res===true){
-		console.log("Updating robots successfully.");
-	}
-})
-*/
+function autoUpdateBookList($am=1, $intervalHours=24){
+		let stid,siid;
+		let delayIntervalExec = (delay=1000, interval=3000, callback=()=>{})=>{
+			stid = setTimeout(()=>{
+				callback();
+				siid = setInterval(callback, interval);
+			}, delay);
+		}
+
+		let zeroDiff = (hourNo=1)=>{
+			//hourNo=1 means next 01:00's utc-timestamp
+			const ymd = 'YYYY-MM-DD';
+			const ymdhms = 'YYYY-MM-DD HH:mm:ss';
+			
+			let tomorrowString = moment(moment().add(1,'days').format(ymd)).format(ymdhms);
+				tomorrowString = moment(tomorrowString).add(hourNo,'hours').format(ymdhms);
+
+			let tomorrowTT = moment(tomorrowString).toDate().getTime();
+			let nowTT = moment().toDate().getTime();
+
+			let diff = tomorrowTT - nowTT;
+			return diff;
+		}
+
+		const $1day = 1000 * 60**2 * $intervalHours;
+		delayIntervalExec(zeroDiff($am), $1day, ()=>{
+			updateBookList($1day).then((res)=>{
+				if(res===1){
+					updateRobotsText()
+				}
+			})
+			clearInterval(siid);
+		});
+}
+
+
 
 module.exports = {
-	createBookList: updateAll,
-	updateBookList: partialUpdate,
-	updateRobotsTxt: updateRobots
+	createBookList: createBookList,
+	updateBookList: updateBookList,
+	updateRobotsText: updateRobotsText,
+	autoUpdateBookList: autoUpdateBookList
 }
 

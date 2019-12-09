@@ -20,7 +20,7 @@ const {
 
 const { getbookFromGdrive } = require("../utils/getbookFromGdrive");
 
-const {createBookList,updateBookList,updateRobotsTxt} = require("../utils/eBookManager");
+const {createBookList,updateBookList,updateRobotsText} = require("../utils/eBookManager");
 
 books.post('/search', async function(req, res, next){
         let {keyword,skipNum,limitNum} = req.body;
@@ -152,7 +152,7 @@ books.post('/eBookManager', async function(req,res,next){
                     res.sendStatus(r===1 ? 200 : (r===0 ? 204 : 500));
                     break;
                 case 'UPDATE_ROBOTS_TXT':
-                    r = await updateRobotsTxt();
+                    r = await updateRobotsText();
                     res.sendStatus(r===1 ? 200 : 500);
                     break;
             }
