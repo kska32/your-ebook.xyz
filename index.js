@@ -14,7 +14,7 @@ const MongoClient = mongodb.MongoClient;
 
 const {logRequest} = require("./utils/logVisited");
 
-const {autoUpdateBookList} = require("./utils/eBookManager");
+const {autoUpdateBookData} = require("./utils/eBookManager");
 
 if(process.env.NODE_ENV==='production'){
     app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
@@ -57,8 +57,8 @@ MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true
 
         let httpServer = http.createServer(app);
         httpServer.listen(svrPort, svrIp, ()=>{
-            autoUpdateBookList(1, 24);//1am, 24hours
-            console.log(`>Your-ebook.xyz is ok. at the ${svrIp}:${svrPort}`);
+            autoUpdateBookData(1, 24);//1am, 24hours
+            console.log(`> Your-ebook.xyz is ok. at the ${svrIp}:${svrPort}`);
         });
 }).catch((err)=>{
         console.error(err);

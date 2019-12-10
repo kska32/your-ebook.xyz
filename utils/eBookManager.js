@@ -10,7 +10,7 @@ const {mongodbUrl} = require("../conf");
 const {getJwtClient, getTokens, allFilesList} = require("./customGdriveApi");
 const MongoClient = require('mongodb').MongoClient;
 
-async function updateEBookList(selector, needReset=true, dbName='mydb', collName='booksdb-gdrive'){
+async function updateEBookDB(selector, needReset=true, dbName='mydb', collName='booksdb-gdrive'){
 	if(selector && selector.length <= 0){
 		return 0;
 	}	
@@ -73,7 +73,7 @@ function filterAllFiles(allFiles){
 	});
 }
 
-function createBookList(){
+function createBookData(){
 	const jwtClient = getJwtClient();
 
 	return getTokens(jwtClient).then((token, tokens)=>{
@@ -89,7 +89,7 @@ function createBookList(){
 			console.log(allFiles.length);
 		
 			allFiles = filterAllFiles(allFiles);
-			return updateEBookList(allFiles).then((ok)=>{
+			return updateEBookDB(allFiles).then((ok)=>{
 				if(ok===1){
 					console.log("The update-all is successfully.");
 				}else{
@@ -101,7 +101,7 @@ function createBookList(){
 	});
 }
 
-function updateBookList(msTimeAgo=1000*60*60){
+function updateBookData(msTimeAgo=1000*60*60){
 	//warning: The number of books per update must be less than 100
 	const jwtClient = getJwtClient();
 
@@ -117,14 +117,14 @@ function updateBookList(msTimeAgo=1000*60*60){
 		  fields: "nextPageToken, files(id, name, size, kind, mimeType, createdTime, modifiedTime)"
 		}).then((allFiles)=>{
 			allFiles = filterAllFiles(allFiles);
-			return updateEBookList(allFiles, false).then((ok)=>{
+			return updateEBookDB(allFiles, false).then((ok)=>{
 				if(ok===1){
 					console.log("The partial-update is successfully.");
 				}else{
 					console.log("The partial-update is not update any data.");
 				}
 				return ok;
-			})
+			});
 		});
 	  })
 }
@@ -220,7 +220,7 @@ function updateRobotsText(path='../public/sitemap.xml', basePath='https://your-e
 }
 
 
-function autoUpdateBookList($am=1, $intervalHours=24){
+function autoUpdateBookData($am=1, $intervalHours=24){
 		let stid,siid;
 		let delayIntervalExec = (delay=1000, interval=3000, callback=()=>{})=>{
 			stid = setTimeout(()=>{
@@ -245,22 +245,24 @@ function autoUpdateBookList($am=1, $intervalHours=24){
 		}
 
 		const $1day = 1000 * 60**2 * $intervalHours;
-		delayIntervalExec(zeroDiff($am), $1day, ()=>{
-			updateBookList($1day).then((res)=>{
+		const theDelay = zeroDiff($am);
+
+		console.log("> Auto-UpdateBookData-Mode Enabled!")
+		delayIntervalExec(theDelay, $1day, ()=>{
+			updateBookData($1day).then((res)=>{
 				if(res===1){
 					updateRobotsText()
 				}
 			})
-			//clearInterval(siid);
 		});
 }
 
 
 
 module.exports = {
-	createBookList: createBookList,
-	updateBookList: updateBookList,
+	createBookData: createBookData,
+	updateBookData: updateBookData,
 	updateRobotsText: updateRobotsText,
-	autoUpdateBookList: autoUpdateBookList
+	autoUpdateBookData: autoUpdateBookData
 }
 
