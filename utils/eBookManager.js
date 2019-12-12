@@ -257,8 +257,6 @@ function autoUpdateBookData($am=1, $intervalHours=24){
 		});
 }
 
-
-
 module.exports = {
 	createBookData: createBookData,
 	updateBookData: updateBookData,

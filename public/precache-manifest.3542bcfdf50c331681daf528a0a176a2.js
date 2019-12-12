@@ -60,12 +60,12 @@ self.__precacheManifest = [
     "url": "/static/media/flags.9c74e172.png"
   },
   {
-    "revision": "b87b9ba532ace76ae9f6edfe9f72ded2",
-    "url": "/static/media/icons.b87b9ba5.ttf"
-  },
-  {
     "revision": "8e3c7f5520f5ae906c6cf6d7f3ddcd19",
     "url": "/static/media/icons.8e3c7f55.eot"
+  },
+  {
+    "revision": "b87b9ba532ace76ae9f6edfe9f72ded2",
+    "url": "/static/media/icons.b87b9ba5.ttf"
   },
   {
     "revision": "13db00b7a34fee4d819ab7f9838cc428",
@@ -88,7 +88,7 @@ self.__precacheManifest = [
     "url": "/static/css/2.f06f4432.chunk.css"
   },
   {
-    "revision": "fff43cde11d1a1c04d4717c70e6be190",
+    "revision": "28ee5d889c86fcda35fb489e73d0b78f",
     "url": "/index.html"
   }
 ];
