@@ -168,7 +168,6 @@ async function logWhoseFingerSearchedWord(req,coll='whoseFingerSearchedWord'){
     }catch(err){
         console.error(`\n${new Date}\n`,err);
     }
-        
 }
 
 //========================================================
