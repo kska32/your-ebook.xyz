@@ -44,8 +44,12 @@ app.use((req, res, next)=>{//..if Cannot GET return 404error.
 });
 
 app.use((err,req,res,next)=>{
-    res.status(err.status||500)
-        .sendFile(path.resolve(__dirname,'./public/index.html'));
+    if (res.headersSent) {
+        return next(err);
+    }else{
+        res.status(err.status||500)
+            .sendFile(path.resolve(__dirname,'./public/index.html'));
+    }
 });
 
 MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true })

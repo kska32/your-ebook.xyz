@@ -26,7 +26,7 @@ books.post('/search', async function(req, res, next){
         let {keyword,skipNum,limitNum} = req.body;
 
         if(keyword === undefined){
-            return res.end('Not Found');
+            return res.send('Not Found');
         }
 
         keyword = keyword.trim();
@@ -40,18 +40,18 @@ books.post('/search', async function(req, res, next){
         }
 
         if( keyword.length<1 || (keyword.length===1 && /^[.,%!&@~']{1}/gi.test(keyword)) ){
-            return res.end('Not Found');
+            return res.send('Not Found');
         }
 
         try{
-            var result = await searchbooks(keyword, req.db, skipNum, limitNum);
+            let result = await searchbooks(keyword, req.db, skipNum, limitNum);
             if( result.length === 0 ){
-                return res.end('Not Found');
+                return res.send('Not Found');
             }else{
                 return res.send( result );
             }
         }catch(err){
-            next(err);
+            return next(err);
         }
 });
 
@@ -80,7 +80,7 @@ books.post('/getbook', async function(req,res,next){
                             let bookContent = await getbookFromGdrive(bookInfo);
                             bookContent.data.pipe(new Throttle({rate: 1024*(768*RemainingRatio+256)})).pipe(res); //256KB ~ 1024KB(1MB)
                         }catch(err){
-                            next(err);
+                            return next(err);
                         } 
                         break;
                 default:
