@@ -1,6 +1,5 @@
 const assert = require("assert");
 const opencc = require('node-opencc');
-
 const collName = "booksdb-gdrive";
 
 function filterSpecialChar(str){
@@ -60,8 +59,6 @@ let getbookInfo = async (bookid, db, fields={}, skipNum=0, limitNum=0)=>{
 	//assert.equal(r.result.ok, 1);
 	return r[0];
 }
-
-
 
 module.exports = {
 		searchbooks, 
