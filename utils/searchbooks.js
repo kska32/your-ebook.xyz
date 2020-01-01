@@ -1,10 +1,19 @@
 const assert = require("assert");
+const opencc = require('node-opencc');
+
 const collName = "booksdb-gdrive";
 
 function filterSpecialChar(str){
 	return str.replace(/[\^\$\(\)\*\+\-\\\.\[\]\{\}\|\?]/gi,(x)=>{
 		return '\\'+x;
 	});
+}
+
+function TSST(keyword){
+	//Traditional <--> Simplified Chinese
+	let TS = opencc.traditionalToSimplified(keyword);
+	let ST = opencc.simplifiedToTraditional(keyword);
+	return `${ TS }|${ ST }`;
 }
 
 let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
@@ -23,7 +32,12 @@ let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
 					.limit(limitNum)
 					.toArray();
 		}else{
-			query = {'title':{'$regex':'.*'+ keyword +'.*','$options':"gi"}};
+			query = {
+				'title':{
+					'$regex':`.*(${TSST(keyword)}).*`, 
+					'$options':"gi"
+				}
+			};
 			project = {'title':1, 'size':1};//'path':1, 'points':1
 			result = await clt.find(query)
 					.project(project)
@@ -46,6 +60,8 @@ let getbookInfo = async (bookid, db, fields={}, skipNum=0, limitNum=0)=>{
 	//assert.equal(r.result.ok, 1);
 	return r[0];
 }
+
+
 
 module.exports = {
 		searchbooks, 
