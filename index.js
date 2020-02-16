@@ -61,7 +61,7 @@ MongoClient.connect(mongodbUrl, { useNewUrlParser: true, useUnifiedTopology:true
 
         let httpServer = http.createServer(app);
         httpServer.listen(svrPort, svrIp, ()=>{
-            autoUpdateBookData(-7, 24);//1am, 24hours
+            process.env.NODE_ENV==='production' && autoUpdateBookData(-7, 24);//1am, 24hours
             console.log(`> Your-ebook.xyz is ok. at the ${svrIp}:${svrPort}`);
         });
 }).catch((err)=>{
