@@ -3,9 +3,22 @@ const opencc = require('node-opencc');
 const collName = "booksdb-gdrive";
 
 function filterSpecialChar(str){
-	return str.replace(/[\^\$\(\)\*\+\-\\\.\[\]\{\}\|\?]/gi,(x)=>{
+	///[\^\$\(\)\*\+\-\\\.\[\]\{\}\|\?]/gi
+	return str.replace(/[\^\$\(\)\*\+\-\\\.\[\]\{\}\?]/gi,(x)=>{
 		return '\\'+x;
 	});
+}
+
+function filterMultipleEmptyChars(str){
+	return str.replace(/[\s]{2,}/gi,' ');
+}
+
+function filterOrOperator(str){
+	String.prototype.xtrim = function(sym){
+		return this.replace(new RegExp(`^\\${sym}+|\\${sym}+$`,'gi') ,'');
+	}
+	let rs = str.replace(/[\s]*[\|]+[\s]*/gi, '|').replace(/[\|]{2,}/gi,'|').xtrim('|');
+	return rs.length === 1 && rs === '|' ? '' : rs;
 }
 
 function TSST(keyword){
@@ -17,8 +30,13 @@ function TSST(keyword){
 
 let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
 		let clt = db.collection(collName);
-		var fsl = filterSpecialChar;
+		let fsl = filterSpecialChar;
+		let fme = filterMultipleEmptyChars;
+		let foo = filterOrOperator;
+
 		keyword = fsl(keyword);
+		keyword = fme(keyword);
+		keyword = foo(keyword);
 
 		let query,project,result;
 
@@ -31,6 +49,8 @@ let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
 					.limit(limitNum)
 					.toArray();
 		}else{
+			if(keyword==='') return '';
+
 			query = {
 				'title':{
 					'$regex':`.*(${TSST(keyword)}).*`, 
@@ -63,5 +83,7 @@ let getbookInfo = async (bookid, db, fields={}, skipNum=0, limitNum=0)=>{
 module.exports = {
 		searchbooks, 
 		getbookInfo, 
-		fsl: filterSpecialChar
+		fsl: filterSpecialChar,
+		fme: filterMultipleEmptyChars,
+		foo: filterOrOperator
 };
