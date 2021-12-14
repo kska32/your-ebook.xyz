@@ -130,7 +130,7 @@ function updateBookData(msTimeAgo=1000*60*60){
 }
 
 
-function generateSitemap(exportPath='sitemap.xml', siteBaseAddr='https://your-ebook.xyz', maxIndex=50000){
+function generateSitemap(exportPath='sitemap.xml', siteBaseAddr='https://jade.gleeze.com', maxIndex=50000){
 	let $xml$urlset = (x)=>`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${x}\n</urlset>`;
 	let $url = (loc,lastmod,changefreq,priority)=>`\n\t<url>\n\t\t<loc>${loc}</loc>\n\t\t<lastmod>${lastmod}</lastmod>\n\t\t<changefreq>${changefreq}</changefreq>\n\t\t<priority>${priority}</priority>\n\t</url>`
 
@@ -180,7 +180,7 @@ function generateSitemap(exportPath='sitemap.xml', siteBaseAddr='https://your-eb
 	});
 }
 
-function updateRobotsTxt(sitemapCount=1, exportPath="../public/Robots.txt",siteBaseAddr='https://your-ebook.xyz'){
+function updateRobotsTxt(sitemapCount=1, exportPath="../public/Robots.txt",siteBaseAddr='https://jade.gleeze.com'){
 	let absPath = path.resolve(__dirname,exportPath);
 	return new Promise((resolve)=>{
 		fs.readFile(absPath,{encoding:'utf8'}, (err,data)=>{
@@ -207,7 +207,7 @@ function updateRobotsTxt(sitemapCount=1, exportPath="../public/Robots.txt",siteB
 	});
 }
 
-function updateRobotsText(path='../public/sitemap.xml', basePath='https://your-ebook.xyz', indexMax=50000){
+function updateRobotsText(path='../public/sitemap.xml', basePath='https://jade.gleeze.com', indexMax=50000){
 	return generateSitemap(path,basePath,indexMax).then((res)=>{
 		if(res.state===true){
 			return updateRobotsTxt(res.length, "../public/Robots.txt").then((res)=>{
