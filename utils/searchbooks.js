@@ -54,7 +54,7 @@ let searchbooks = async function(keyword, db, skipNum=0, limitNum=0){
 			query = {
 				'title':{
 					'$regex':`.*(${TSST(keyword)}).*`, 
-					'$options':"gi"
+					'$options': 'i'
 				}
 			};
 			project = {'title':1, 'size':1};//'path':1, 'points':1
